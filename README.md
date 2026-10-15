@@ -37,32 +37,9 @@ Projeto em Power BI para praticar DAX sobre uma base de vendas, clientes e produ
 
 Uma tabela fato (`Vendas`) e três dimensões (`Clientes`, `Produtos` e `dCalendario`).
 
-## Medidas
-
-Todas as medidas estão em [`medidas.dax`](medidas.dax). Exemplo:
-
-```dax
-Ticket Médio =
-DIVIDE ( [Faturamento Total], [Total de Vendas Realizadas] )
-```
-
-## Estrutura
-
-```
-README.md
-medidas.dax
-desafio-dax.pbix
-imagens/
-    dashboard.png
-```
-
 
 
 ## Observações
 
 - O painel mostra 600 linhas de venda e 598 vendas, porque algumas vendas têm mais de um item. Por isso uso `COUNTROWS` para linhas e `DISTINCTCOUNT` para vendas.
 - As divisões usam `DIVIDE` em vez de `/`, para não gerar erro quando o denominador é zero.
-
-## Autor
-
-Mateus Heloi - [GitHub](https://github.com/MateusHeloi) - [LinkedIn](https://www.linkedin.com/in/SEU_LINKEDIN)
