@@ -1,0 +1,94 @@
+// ============================================================
+// Desafio DAX | Medidas do projeto
+// ATENÇÃO: ajuste os nomes de tabelas e colunas (Vendas[valor_venda],
+// Vendas[id_venda] etc.) para os nomes reais do seu modelo.
+// ============================================================
+
+
+// ------------------------------------------------------------
+// PARTE 1 | Agregações
+// ------------------------------------------------------------
+Faturamento Total = SUM ( Vendas[valor_venda] )
+
+Quantidade Total Vendida = SUM ( Vendas[quantidade] )
+
+Maior Venda = MAX ( Vendas[valor_venda] )
+
+Menor Venda = MIN ( Vendas[valor_venda] )
+
+Valor Médio das Vendas = AVERAGE ( Vendas[valor_venda] )
+
+
+// ------------------------------------------------------------
+// PARTE 2 | Contagens
+// ------------------------------------------------------------
+Total de Vendas Realizadas = DISTINCTCOUNT ( Vendas[id_venda] )
+
+Total de Linhas de Vendas = COUNTROWS ( Vendas )
+
+Clientes Distintos = DISTINCTCOUNT ( Vendas[id_cliente] )
+
+Produtos Distintos Vendidos = DISTINCTCOUNT ( Vendas[id_produto] )
+
+
+// ------------------------------------------------------------
+// PARTE 3 | Divisão e indicadores
+// DIVIDE evita erro de divisão por zero.
+// ------------------------------------------------------------
+Ticket Médio =
+DIVIDE ( [Faturamento Total], [Total de Vendas Realizadas] )
+
+Receita Média por Cliente =
+DIVIDE ( [Faturamento Total], [Clientes Distintos] )
+
+Qtde Média de Itens por Venda =
+DIVIDE ( [Quantidade Total Vendida], [Total de Vendas Realizadas] )
+
+
+// ------------------------------------------------------------
+// PARTE 4 | Filtro e contexto (CALCULATE)
+// Reaplicar as medidas das partes 1 e 3 com filtros fixos.
+// ------------------------------------------------------------
+Faturamento Total 2024 =
+CALCULATE ( [Faturamento Total], dCalendario[Ano] = 2024 )
+
+Ticket Médio 2024 =
+CALCULATE ( [Ticket Médio], dCalendario[Ano] = 2024 )
+
+Faturamento Região Específica =
+CALCULATE ( [Faturamento Total], Clientes[regiao] = "NOME_DA_REGIAO" )
+
+Faturamento Produto Específico =
+CALCULATE ( [Faturamento Total], Produtos[nome_produto] = "NOME_DO_PRODUTO" )
+
+
+// ------------------------------------------------------------
+// PARTE 5 | BLANK
+// Mês sem vendas devolve BLANK; tratamos para devolver 0.
+// ------------------------------------------------------------
+Faturamento Fev 2025 =
+CALCULATE (
+    [Faturamento Total],
+    dCalendario[Ano] = 2025,
+    dCalendario[MesNumero] = 2
+)
+
+Ticket Médio Fev 2025 =
+CALCULATE (
+    [Ticket Médio],
+    dCalendario[Ano] = 2025,
+    dCalendario[MesNumero] = 2
+)
+
+Ticket Médio Tratado =
+DIVIDE ( [Faturamento Total], [Total de Vendas Realizadas], 0 )
+
+
+// ------------------------------------------------------------
+// PARTE 6 | IF
+// Classificação em Alto / Normal conforme um valor de corte.
+// ------------------------------------------------------------
+Classificação Faturamento =
+VAR _Corte = 20000   // valor de corte (X): ajuste conforme o desafio
+RETURN
+    IF ( [Faturamento Total] >= _Corte, "Alto", "Normal" )
