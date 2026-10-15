@@ -3,7 +3,7 @@
 
 Projeto em Power BI para praticar DAX sobre uma base de vendas, clientes e produtos. O painel tem filtros por ano, cliente e produto.
 
-![Dashboard](dashboard.png)
+![Dashboard](image.png)
 
 ## Indicadores
 
